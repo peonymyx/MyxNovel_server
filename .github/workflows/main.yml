@@ -30,6 +30,7 @@ jobs:
           nvm use
           npm ci
           npm run build
+          sudo swapoff -a; sudo swapon -a
            pm2 delete all
           pm2 start dist/main.js
           curl -X POST -H "Content-Type: application/json" -H "Authorization: ${{ secrets.DC_KEY }}" -d '{"content":"Dự án node js đã deploy thành công link: https://server.myx.info.vn/ "}' ${{ secrets.DC_URL }} 
