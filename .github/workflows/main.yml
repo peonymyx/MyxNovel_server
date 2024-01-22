@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: 22
         script: |
-          cd /var/www/ern_lms/ern_lms_member
+          cd /var/www/server/MyxNovel_server
           git pull
           git status
           . $HOME/.nvm/nvm.sh
