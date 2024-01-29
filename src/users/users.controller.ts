@@ -10,6 +10,8 @@ export class UsersController {
 
   @Post()
    addToken(@Req() req: Request, @Res() res: Response) {
+    console.log(req.body);
+    
     if(req.headers['secure-token'] != process.env.TOKEN_BANKING)
     {
       return res.status(500).json({
