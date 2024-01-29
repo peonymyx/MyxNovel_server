@@ -10,7 +10,7 @@ export class UsersController {
 
   @Post()
    addToken(@Req() req: Request, @Res() res: Response) {
-    if(req.headers['secure-token'] != "05102004")
+    if(req.headers['secure-token'] != process.env.TOKEN_BANKING)
     {
       return res.status(500).json({
         message:"Nạp tiền không thành công",
