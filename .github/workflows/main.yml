@@ -29,6 +29,8 @@ jobs:
           . $HOME/.nvm/nvm.sh
           nvm use
           npm ci
+          echo "Khởi tạo prisma Client cho node module"
+          npx prisma generate
           npm run build
           sudo swapoff -a; sudo swapon -a
           pm2 delete all
