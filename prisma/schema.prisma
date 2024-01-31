@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int             @id @unique @default(autoincrement())
+  email    String          @unique
+  role     Role            @default(USER)
+  password String
+  avatar   String          @db.Text
+  createAt String
+  updateAt String
+  status   AvailableStatus @default(INACTIVE)
+  comments Comments[]
+  Keys     Key[]
+}
+
+model Novel {
+  id       Int        @id @unique @default(autoincrement())
+  createAt String
+  updateAt String
+  name     String
+  avatar   String     @db.Text
+  chapters Chapters[]
+  comments Comments[]
+}
+
+model Chapters {
+  id       Int           @id @unique @default(autoincrement())
+  novelID  Int
+  content  String        @db.Text
+  status   StatusChapter @default(PRIVATE)
+  keyValue String
+  novel    Novel         @relation(fields: [novelID], references: [id])
+  key      Key[]
+
+  @@index([novelID], map: "Chapters_novelID_fkey")
+}
+
+model Comments {
+  id      Int    @id @unique @default(autoincrement())
+  novelID Int
+  userID  Int
+  content String @db.Text
+  Novel   Novel  @relation(fields: [novelID], references: [id])
+  User    User   @relation(fields: [userID], references: [id])
+
+  @@index([novelID], map: "Comments_novelID_fkey")
+  @@index([userID], map: "Comments_userID_fkey")
+}
+
+model Key {
+  id        Int      @id @unique @default(autoincrement())
+  price     Float
+  userId    Int
+  chapterId Int
+  chapter   Chapters @relation(fields: [chapterId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([chapterId], map: "Key_chapterId_fkey")
+  @@index([userId], map: "Key_userId_fkey")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AvailableStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum StatusChapter {
+  PRIVATE
+  PUBLIC
+}
